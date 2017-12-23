@@ -1,5 +1,5 @@
 /*
-Copyright 2012 Jun Wako <wakojun@gmail.com>
+Copyright 2017 Kai Ryu <kai1103@gmail.com>
 
 This program is free software: you can redistribute it and/or modify
 it under the terms of the GNU General Public License as published by
@@ -20,21 +20,20 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
 
 /* USB Device descriptor parameter */
-#define VENDOR_ID       0xFEED
-#define PRODUCT_ID      0x6060
-#define DEVICE_VER      0x0001
-#define MANUFACTURER    geekhack
-#define PRODUCT         GH60
-#define DESCRIPTION     t.m.k. keyboard firmware for GH60
+#define VENDOR_ID       0x1209
+#define PRODUCT_ID      0x2328
+#define DEVICE_VER      0x0501
+#define MANUFACTURER    K.T.E.C.
+#define PRODUCT         Daisy
+#define DESCRIPTION     t.m.k. keyboard firmware for Daisy
 
 /* key matrix size */
-#define MATRIX_ROWS 5
-#define MATRIX_COLS 14
+#define MATRIX_ROWS 4
+#define MATRIX_COLS 11
 
 /* keymap in eeprom */
 #define FN_ACTIONS_COUNT 32
 #define KEYMAPS_COUNT 8
-#define EECONFIG_KEYMAP_IN_EEPROM 19
 
 /* define if matrix has ghost */
 //#define MATRIX_HAS_GHOST
@@ -44,44 +43,32 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
 /* number of backlight levels */
 #ifdef BREATHING_LED_ENABLE
+#ifdef FADING_LED_ENABLE
 #define BACKLIGHT_LEVELS 8
+#else
+#define BACKLIGHT_LEVELS 6
+#endif
 #else
 #define BACKLIGHT_LEVELS 3
 #endif
+
+/* enable customized backlight logic */
 #define BACKLIGHT_CUSTOM
-#ifdef RGB_LED_ENABLE
 #define CUSTOM_LED_ENABLE
-#endif
+#define SOFTPWM_LED_FREQ 80
 
-#ifdef GH60_REV_CNY
-#define LED_MATRIX_ROWS 6
-#define LED_MATRIX_COLS 14
-#endif
-
-/* LED mapping */
-#ifdef LEDMAP_ENABLE
-#if defined(GH60_REV_CHN)
-#define LED_COUNT 2
+/* number of leds */
+#define LED_COUNT 4
 #define LEDMAP_V2
-#define LED1_PORT   B
-#define LED1_BIT    2
-#define LED2_PORT   B
-#define LED2_BIT    6
-#else
-#define LED_COUNT 5
-#define LEDMAP_V2
-#define LED1_PORT   B
-#define LED1_BIT    2
-#define LED2_PORT   F
-#define LED2_BIT    7
-#define LED3_PORT   F
-#define LED3_BIT    6
-#define LED4_PORT   F
-#define LED4_BIT    5
-#define LED5_PORT   F
-#define LED5_BIT    4
-#endif
-#endif
+#define LED1_PORT   C
+#define LED1_BIT    6
+#define LED2_PORT   D
+#define LED2_BIT    1
+#define LED3_PORT   D
+#define LED3_BIT    0
+#define LED4_PORT   C
+#define LED4_BIT    7
+#define RGB_LED_COUNT 8
 
 /* Mechanical locking support. Use KC_LCAP, KC_LNUM or KC_LSCR instead in keymap */
 #define LOCKING_SUPPORT_ENABLE
@@ -94,18 +81,7 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
     keyboard_report->mods == (MOD_BIT(KC_LSHIFT) | MOD_BIT(KC_RSHIFT)) \
 )
 
-/* PS2 mouse support */
-#ifdef PS2_MOUSE_ENABLE
-#define PS2_CLOCK_PORT	PORTF
-#define PS2_CLOCK_PIN	PINF
-#define PS2_CLOCK_DDR	DDRF
-#define PS2_CLOCK_BIT	PF7
-
-#define PS2_DATA_PORT	PORTF
-#define PS2_DATA_PIN	PINF
-#define PS2_DATA_DDR	DDRF
-#define PS2_DATA_BIT	PF6
-#endif
+//#define SUSPEND_ACTION
 
 /*
  * Feature disable options

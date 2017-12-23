@@ -1,5 +1,5 @@
 /*
-Copyright 2014 Kai Ryu <kai1103@gmail.com>
+Copyright 2017 Kai Ryu <kai1103@gmail.com>
 
 This program is free software: you can redistribute it and/or modify
 it under the terms of the GNU General Public License as published by
@@ -17,17 +17,18 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
 #include <avr/pgmspace.h>
 #include "ledmap.h"
-#include "kimera.h"
+
 
 #ifdef LEDMAP_ENABLE
 
-#undef ledmap_get_code
-
 static const uint16_t ledmaps[LED_COUNT] PROGMEM = {
-    [0] = LEDMAP_NUM_LOCK,              // LED1
-    [1] = LEDMAP_CAPS_LOCK,             // LED2
-    [2] = LEDMAP_SCROLL_LOCK,           // LED3
-    [3] = LEDMAP_BACKLIGHT,             // LED4
+#ifdef LEDMAP_V2
+    [0] = LEDMAP_ACTIVE_LOW  | LEDMAP_CAPS_LOCK,                     // CapsLock  - PB2
+    [1] = LEDMAP_ACTIVE_LOW  | LEDMAP_LAYER(3),                      // ????      - GPIO0 - PF7
+    [2] = LEDMAP_RGB_LED     | LEDMAP_RGB_LED_COUNT(7),              // RGB       - GPIO1 - PF6
+    [3] = LEDMAP_ACTIVE_LOW  | LEDMAP_BACKLIGHT,                     // Backlight - GPIO2 - PF5
+    [4] = LEDMAP_ACTIVE_HIGH | LEDMAP_NUM_LOCK,                      // ???       - GPIO3 - PF4
+#endif
 };
 
 ledmap_t ledmap_get_code(uint8_t index)
@@ -38,30 +39,26 @@ ledmap_t ledmap_get_code(uint8_t index)
 #ifndef LEDMAP_V2
 void ledmap_led_init(void)
 {
-    LED1_DDR  |=  (1<<LED1_BIT);
-    LED1_PORT |=  (1<<LED1_BIT);
-    LED2_DDR  |=  (1<<LED2_BIT);
-    LED2_PORT |=  (1<<LED2_BIT);
-    LED3_DDR  |=  (1<<LED3_BIT);
-    LED3_PORT |=  (1<<LED3_BIT);
-    LED4_DDR  |=  (1<<LED4_BIT);
-    LED4_PORT &= ~(1<<LED4_BIT);
+    DDRB  |= (1<<PB2);
+    PORTB |= (1<<PB2);
+    DDRF  |= (1<<PF7 | 1<<PF6 | 1<<PF5);
+    PORTF |= (1<<PF7 | 1<<PF6 | 1<<PF5);
 }
 
 void ledmap_led_on(uint8_t index)
 {
     switch (index) {
         case 0:
-            LED1_PORT &= ~(1<<LED1_BIT);
+            PORTB &= ~(1<<PB2);
             break;
         case 1:
-            LED2_PORT &= ~(1<<LED2_BIT);
+            PORTF &= ~(1<<PF6);
             break;
         case 2:
-            LED3_PORT &= ~(1<<LED3_BIT);
+            PORTF &= ~(1<<PF7);
             break;
         case 3:
-            LED4_PORT |=  (1<<LED4_BIT);
+            PORTF &= ~(1<<PF4);
             break;
     }
 }
@@ -70,20 +67,19 @@ void ledmap_led_off(uint8_t index)
 {
     switch (index) {
         case 0:
-            LED1_PORT |=  (1<<LED1_BIT);
+            PORTB |= (1<<PB2);
             break;
         case 1:
-            LED2_PORT |=  (1<<LED2_BIT);
+            PORTF |= (1<<PF6);
             break;
         case 2:
-            LED3_PORT |=  (1<<LED3_BIT);
+            PORTF |= (1<<PF7);
             break;
         case 3:
-            LED4_PORT &= ~(1<<LED4_BIT);
+            PORTF |= (1<<PF4);
             break;
     }
 }
-
 #endif
 
 #endif

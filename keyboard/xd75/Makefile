@@ -39,7 +39,7 @@
 #----------------------------------------------------------------------------
 
 # Target file name (without extension).
-TARGET = kimera_lufa
+TARGET = xd75_lufa
 
 # Directory common source filess exist
 TMK_DIR = ../../tmk_core_custom
@@ -50,12 +50,8 @@ TARGET_DIR = .
 # project specific files
 SRC =	keymap_common.c \
 	matrix.c \
-	led.c \
 	backlight.c \
-	ledmap.c \
-	twimaster.c \
-	i2c_wrapper.c \
-	kimera.c
+	ledmap.c
 
 ifdef KEYMAP
     SRC := keymap_$(KEYMAP).c $(SRC)
@@ -116,11 +112,9 @@ OPT_DEFS += -DINTERRUPT_CONTROL_ENDPOINT
 #   USBaspLoader     2048
 OPT_DEFS += -DBOOTLOADER_SIZE=4096
 
-# PCB Version
-ifdef VER
-    OPT_DEFS += -DKIMERA_$(REV)
-else
-    OPT_DEFS += -DKIMERA_CORE
+# PCB Revision
+ifdef REV
+    OPT_DEFS += -DGH60_REV_$(REV)
 endif
 
 # Additional definitions from command line
@@ -131,24 +125,24 @@ endif
 # Build Options
 #   comment out to disable the options.
 #
-#BOOTMAGIC_ENABLE = yes	# Virtual DIP switch configuration(+1000)
+BOOTMAGIC_ENABLE = yes	# Virtual DIP switch configuration(+1000)
 MOUSEKEY_ENABLE = yes	# Mouse keys(+4700)
 EXTRAKEY_ENABLE = yes	# Audio control and System control(+450)
 CONSOLE_ENABLE = yes	# Console for debug(+400)
 COMMAND_ENABLE = yes	# Commands for debug and configuration
 #SLEEP_LED_ENABLE = yes	# Breathing sleep LED during USB suspend
-NKRO_ENABLE = yes	# USB Nkey Rollover - not yet supported in LUFA
+NKRO_ENABLE = yes	# USB Nkey Rollover
 USB_6KRO_ENABLE = yes	# USB 6key Rollover
 #PS2_MOUSE_ENABLE = yes	# PS/2 mouse(TrackPoint) support
 #PS2_USE_BUSYWAIT = yes
 BACKLIGHT_ENABLE = yes	# Enable keyboard backlight functionality
-KEYMAP_IN_EEPROM_ENABLE = yes	# External keymap in eeprom
+KEYMAP_IN_EEPROM_ENABLE = yes # Read keymap from eeprom
 #KEYMAP_SECTION_ENABLE = yes	# Fixed address keymap for keymap editor
 SOFTPWM_LED_ENABLE = yes # Enable SoftPWM to drive backlight
 FADING_LED_ENABLE = yes # Enable fading backlight
 BREATHING_LED_ENABLE = yes # Enable breathing backlight
 RGB_LED_ENABLE = yes	# Enable RGB LED control
-LEDMAP_ENABLE = yes	# Enable LED mapping
+LEDMAP_ENABLE = yes		# Enable LED mapping
 LEDMAP_IN_EEPROM_ENABLE = yes # Read LED mapping from eeprom
 
 

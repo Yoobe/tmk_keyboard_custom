@@ -39,7 +39,7 @@
 #----------------------------------------------------------------------------
 
 # Target file name (without extension).
-TARGET = kimera_lufa
+TARGET = daisy_lufa
 
 # Directory common source filess exist
 TMK_DIR = ../../tmk_core_custom
@@ -51,16 +51,17 @@ TARGET_DIR = .
 SRC =	keymap_common.c \
 	matrix.c \
 	led.c \
-	backlight.c \
 	ledmap.c \
-	twimaster.c \
-	i2c_wrapper.c \
-	kimera.c
+	backlight.c
 
 ifdef KEYMAP
     SRC := keymap_$(KEYMAP).c $(SRC)
 else
     SRC := keymap_default.c $(SRC)
+endif
+
+ifdef VER
+    OPT_DEFS += -DVER_$(VER)
 endif
 
 
@@ -116,13 +117,6 @@ OPT_DEFS += -DINTERRUPT_CONTROL_ENDPOINT
 #   USBaspLoader     2048
 OPT_DEFS += -DBOOTLOADER_SIZE=4096
 
-# PCB Version
-ifdef VER
-    OPT_DEFS += -DKIMERA_$(REV)
-else
-    OPT_DEFS += -DKIMERA_CORE
-endif
-
 # Additional definitions from command line
 ifdef DEFS
     OPT_DEFS += $(foreach DEF,$(DEFS),-D$(DEF))
@@ -131,7 +125,7 @@ endif
 # Build Options
 #   comment out to disable the options.
 #
-#BOOTMAGIC_ENABLE = yes	# Virtual DIP switch configuration(+1000)
+BOOTMAGIC_ENABLE = yes	# Virtual DIP switch configuration(+1000)
 MOUSEKEY_ENABLE = yes	# Mouse keys(+4700)
 EXTRAKEY_ENABLE = yes	# Audio control and System control(+450)
 CONSOLE_ENABLE = yes	# Console for debug(+400)
@@ -142,13 +136,13 @@ USB_6KRO_ENABLE = yes	# USB 6key Rollover
 #PS2_MOUSE_ENABLE = yes	# PS/2 mouse(TrackPoint) support
 #PS2_USE_BUSYWAIT = yes
 BACKLIGHT_ENABLE = yes	# Enable keyboard backlight functionality
-KEYMAP_IN_EEPROM_ENABLE = yes	# External keymap in eeprom
+KEYMAP_IN_EEPROM_ENABLE = yes # Read keymap from eeprom
 #KEYMAP_SECTION_ENABLE = yes	# Fixed address keymap for keymap editor
 SOFTPWM_LED_ENABLE = yes # Enable SoftPWM to drive backlight
 FADING_LED_ENABLE = yes # Enable fading backlight
 BREATHING_LED_ENABLE = yes # Enable breathing backlight
 RGB_LED_ENABLE = yes	# Enable RGB LED control
-LEDMAP_ENABLE = yes	# Enable LED mapping
+LEDMAP_ENABLE = yes		# Enable LED mapping
 LEDMAP_IN_EEPROM_ENABLE = yes # Read LED mapping from eeprom
 
 

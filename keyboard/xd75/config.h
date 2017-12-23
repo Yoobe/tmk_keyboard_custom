@@ -1,5 +1,5 @@
 /*
-Copyright 2012 Jun Wako <wakojun@gmail.com>
+Copyright 2017 Kai Ryu <kai1103@gmail.com>
 
 This program is free software: you can redistribute it and/or modify
 it under the terms of the GNU General Public License as published by
@@ -20,21 +20,20 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
 
 /* USB Device descriptor parameter */
-#define VENDOR_ID       0xFEED
-#define PRODUCT_ID      0x6060
+#define VENDOR_ID       0xCDCD
+#define PRODUCT_ID      0x7575
 #define DEVICE_VER      0x0001
-#define MANUFACTURER    geekhack
-#define PRODUCT         GH60
-#define DESCRIPTION     t.m.k. keyboard firmware for GH60
+#define MANUFACTURER    xiudi
+#define PRODUCT         XD75
+#define DESCRIPTION     t.m.k. keyboard firmware for XD75
 
 /* key matrix size */
 #define MATRIX_ROWS 5
-#define MATRIX_COLS 14
+#define MATRIX_COLS 15
 
 /* keymap in eeprom */
 #define FN_ACTIONS_COUNT 32
 #define KEYMAPS_COUNT 8
-#define EECONFIG_KEYMAP_IN_EEPROM 19
 
 /* define if matrix has ghost */
 //#define MATRIX_HAS_GHOST
@@ -53,21 +52,13 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #define CUSTOM_LED_ENABLE
 #endif
 
-#ifdef GH60_REV_CNY
-#define LED_MATRIX_ROWS 6
-#define LED_MATRIX_COLS 14
-#endif
+#define BACKLIGHT_CONFIG_DEFAULT_ENABLE true
+#define BACKLIGHT_CONFIG_DEFAULT_LEVEL 1
+#define RGB_LED_CONFIG_DEFAULT_ENABLE true
+#define RGB_LED_CONFIG_DEFAULT_LEVEL 9
 
 /* LED mapping */
 #ifdef LEDMAP_ENABLE
-#if defined(GH60_REV_CHN)
-#define LED_COUNT 2
-#define LEDMAP_V2
-#define LED1_PORT   B
-#define LED1_BIT    2
-#define LED2_PORT   B
-#define LED2_BIT    6
-#else
 #define LED_COUNT 5
 #define LEDMAP_V2
 #define LED1_PORT   B
@@ -81,7 +72,6 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #define LED5_PORT   F
 #define LED5_BIT    4
 #endif
-#endif
 
 /* Mechanical locking support. Use KC_LCAP, KC_LNUM or KC_LSCR instead in keymap */
 #define LOCKING_SUPPORT_ENABLE
@@ -93,19 +83,6 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #define IS_COMMAND() ( \
     keyboard_report->mods == (MOD_BIT(KC_LSHIFT) | MOD_BIT(KC_RSHIFT)) \
 )
-
-/* PS2 mouse support */
-#ifdef PS2_MOUSE_ENABLE
-#define PS2_CLOCK_PORT	PORTF
-#define PS2_CLOCK_PIN	PINF
-#define PS2_CLOCK_DDR	DDRF
-#define PS2_CLOCK_BIT	PF7
-
-#define PS2_DATA_PORT	PORTF
-#define PS2_DATA_PIN	PINF
-#define PS2_DATA_DDR	DDRF
-#define PS2_DATA_BIT	PF6
-#endif
 
 /*
  * Feature disable options
